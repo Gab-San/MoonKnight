@@ -7,7 +7,8 @@ public class Scr_GameEvents : MonoBehaviour
 {
     // Reference to Blocks
     [Header("Block Event")]
-    [SerializeField] List<GameObject> blocksList = new List<GameObject>();
+    [SerializeField] List<GameObject> blocksList;
+    bool emptyList => (blocksList.Count == 0);
     bool didSwap;
     int blockIndex = 0;
     float nextBeat;
@@ -23,18 +24,21 @@ public class Scr_GameEvents : MonoBehaviour
     [SerializeField] TMP_FontAsset beatTextFont;
 
     void Start(){
-        // Disable all blocks
-        foreach(GameObject block in blocksList){
-            block.SetActive(false);
+
+        if(!emptyList){
+            // Disable all blocks
+            foreach(GameObject block in blocksList){
+                block.SetActive(false);
+            }
+            blocksList[blockIndex].SetActive(true); // Activate first block into the list in order to save an if-statement
+            didSwap = true; // Set-up bool to calculate next beat
         }
-        blocksList[blockIndex].SetActive(true); // Activate first block into the list in order to save an if-statement
-        didSwap = true;                         // Set-up bool to calculate next beat
     
         BeatTextInit();
     }
 
     void Update(){
-        BlockSwap();
+        if(!emptyList) BlockSwap();
         BeatTextUpd();
     }
 
@@ -122,7 +126,4 @@ public class Scr_GameEvents : MonoBehaviour
         ui_beatText.GetComponent<TextMeshProUGUI>().text = "Beat: " + (Scr_MusicController.instance.songPositionInBeats + 1);
 
     }
-
-
-
 }

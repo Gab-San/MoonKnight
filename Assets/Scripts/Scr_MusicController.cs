@@ -12,15 +12,15 @@ public class Scr_MusicController : MonoBehaviour
     public static Scr_MusicController instance; 
 
     void Awake() {
-       instance = this;     
+        instance = this;     
+        au_musicSource = GetComponent<AudioSource>();
+        secPerBeat = 60f/bpm;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        au_musicSource = GetComponent<AudioSource>();
         songStart = (float) (AudioSettings.dspTime);
-        secPerBeat = 60f/bpm;
         au_musicSource.Play();
     }
 
