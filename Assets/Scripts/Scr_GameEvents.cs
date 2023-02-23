@@ -17,8 +17,11 @@ public class Scr_GameEvents : MonoBehaviour
     GameObject ui_beatText;
     [SerializeField] ScreenSizeOptions resOption; 
     enum ScreenSizeOptions{
+        [InspectorName("480p", order = 0)]
         LowRes = 0, // 480p
+        [InspectorName("720p", order = 1)]
         MedRes = 1, // 720p
+        [InspectorName("1080p", order = 2)]
         HighRes = 2 // 1080p
     }
     [SerializeField] TMP_FontAsset beatTextFont;
@@ -121,7 +124,7 @@ public class Scr_GameEvents : MonoBehaviour
 
     }
 
-      void BeatTextUpd(){
+    void BeatTextUpd(){
         // Update beat text counter to the beat
         ui_beatText.GetComponent<TextMeshProUGUI>().text = "Beat: " + (Scr_MusicController.instance.songPositionInBeats + 1);
 
