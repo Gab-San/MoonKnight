@@ -4,17 +4,17 @@ using UnityEngine;
 // 120 BPM = 120/60 Hz (s^-1)
 public class Scr_MusicController : MonoBehaviour
 {
-    
-    public bool gameHasStarted;
+    public static Scr_MusicController instance; 
 
+
+    public bool gameHasStarted;
     public AudioSource au_musicSource; // Used into BeatReference
     [SerializeField] float bpm;
     public float secPerBeat; // Used into BeatReference
     float songStart;
     public float songPosition; // Used into PlayerMovement
     public float songPositionInBeats; // Used into GameEvents
-    public static Scr_MusicController instance; 
-
+    
     void Awake() {
         instance = this;     
         au_musicSource = GetComponent<AudioSource>();
@@ -35,8 +35,7 @@ public class Scr_MusicController : MonoBehaviour
         if(!au_musicSource.isPlaying){
             return;
         }
-
         songPosition = (float) (AudioSettings.dspTime - songStart);
-        songPositionInBeats = Mathf.FloorToInt(songPosition / secPerBeat);
+        songPositionInBeats = Mathf.FloorToInt( songPosition / secPerBeat);
     }
 }

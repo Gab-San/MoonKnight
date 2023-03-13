@@ -1,0 +1,29 @@
+I need an offset for the music based on where the player is starting;
+The position of the player is set and known. It will be referred as <<offsetPosition>>;
+The time that has to pass in order for the player to virtually get there from the start is, from the physics' formulas:
+
+        time = [ offsetPosition - startingPosition (0 in our case) ]/ velocity;
+
+How is velocity defined in the PlayerMovement Script??
+
+
+unitPerBeat = 1 / Scr_MusicController.instance.secPerBeat; 
+# For instance: 120 bpm = 120/60 [Hz] --> unitPerBeat = 2 [Hz] --> 
+--> Vector2.right * unitPerBeat = 1/2 [m/s] works as a normalized velocity #
+
+com_rb2D.MovePosition(Vector2.right * unitPerBeat * (Scr_MusicController.instance.songPosition) * velocityMultiplier);
+
+With these calculations:
+
+        movement = velocity * time;
+
+velocity = unitPerBeat * Vector2.right * velocityMultiplier;
+
+Since this calculation works is nearly beat-precise it has to be reversed in order to get the offset in seconds 
+from the start of the song;
+
+        time  = movement / (unitPerBeat * |Vector2.right| * velocityMultiplier);
+
+If we take into account that <<Vector2.right>> is a vector which module is equal to 1 then using a correct value to calculate time:
+
+        time = movement/ (unitPerBeat * 1 * velocityMultiplier);
